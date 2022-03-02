@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackJack Project</title>
+</head>
+<style>
+    body {
+        background-image: url(https://media.istockphoto.com/vectors/empty-gambling-background-vector-id978804136?k=20&m=978804136&s=612x612&w=0&h=f80b5pfwHIiWqBQ1jrLkbOS9r99BjdrNABVk7MCWo9U=);
+        background-size: cover;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .contentBody {
+        box-shadow: 0px 0px 10px 5px goldenrod;
+        padding: 10px;
+        width: fit-content;
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 5px;
+    }
+
+    h1 {
+        color: goldenrod;
+        font-family: monospace;
+    }
+
+    p {
+        color: whitesmoke;
+    }
+
+    button {
+        color: black;
+        background-color: goldenrod;
+        cursor: pointer;
+        font-size: 10px;
+        padding: 10px;
+        border: none;
+        letter-spacing: 1px;
+        font-weight: bold;
+        font-style: italic;
+        width: 150px;
+    }
+</style>
+
+<body>
+    <div class="contentBody">
+        <h1>Blackjack Game</h1>
+        <p id="message-el">Want to play a round?</p>
+        <p id="cards">Cards:</p>
+        <p id="sum">Sum:</p>
+        <button onclick="startGame()">START GAME</button><br><br>
+        <button onclick="newCard()">NEW CARD</button>
+        <p id="player-el"></p>
+    </div>
+
+    <script>
+        let playerObject = {
+            name: "Juan",
+            chips: 100,
+        }
+
+        let cardsArr = []
+        let sumInput = 0
+        let hasBlackJack = false
+        let isAlive = false
+        let message = ""
+        let sum = document.getElementById('sum')
+        let messageel = document.getElementById('message-el')
+        let message2 = document.getElementById('cards')
+
+        let playerEl = document.getElementById('player-el')
+        playerEl.textContent = `Player name:  ${playerObject.name} Player chips: ${playerObject.chips}`
+
+        function getRandomCard() {
+            let blackJack = Math.floor(Math.random() * 13) + 1;
+
+            if (blackJack > 10) {
+                return 11
+            }
+            else if (blackJack === 1) {
+                return 10
+            }
+            else {
+                return blackJack
+            }
+        }
+        function startGame() {
+            isAlive = true
+            let firstCard = getRandomCard()
+            let secondCard = getRandomCard()
+            cardsArr = [firstCard, secondCard]
+            sumInput = firstCard + secondCard
+            renderGame()
+        }
+
+        function renderGame() {
+
+
+            if (sumInput < 21) {
+                message = "Do you want another card?"
+
+
+
+            }
+            else if (sumInput === 21) {
+                message = "You get a black-jack card"
+                hasBlackJack = true;
+            }
+            else {
+                message = "You're out of game"
+                isAlive = false
+            }
+            messageel.textContent = message
+            message2.textContent = "Cards:"
+
+            for (let i = 0; i < cardsArr.length; i++) {
+                message2.textContent += cardsArr[i] + ' '
+            }
+            sum.textContent = "Sum: " + sumInput
+        }
+
+        function newCard() {
+            if (isAlive === true && hasBlackJack === false) {
+                let thirdCard = getRandomCard()
+                sumInput += thirdCard
+                cardsArr.push(thirdCard)
+                renderGame()
+            }
+        }
+    </script>
+
+</body>
+
+</html>
